@@ -1,0 +1,9 @@
+./rankgene -m 1 -n 100 -o data/100_feature/info_gain.list -i data/GSE22255_MASS -c data/lable
+./rankgene -m 2 -n 100 -o data/100_feature/twoing_rule.list -i data/GSE22255_MASS -c data/lable
+./rankgene -m 3 -n 100 -o data/100_feature/Gini_index.list -i data/GSE22255_MASS -c data/lable
+./rankgene -m 4 -n 100 -o data/100_feature/Sum_minority.list -i data/GSE22255_MASS -c data/lable
+./rankgene -m 5 -n 100 -o data/100_feature/Max_minority.list -i data/GSE22255_MASS -c data/lable
+./rankgene -m 6 -n 100 -o data/100_feature/Sum_of_variances.list -i data/GSE22255_MASS -c data/lable
+./rankgene -m 7 -n 100 -o data/100_feature/t_statistic.list -i data/GSE22255_MASS -c data/lable
+./rankgene -m 8 -n 100 -o data/100_feature/svm.list -i data/GSE22255_MASS -c data/lable
+

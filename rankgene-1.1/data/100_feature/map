@@ -1,0 +1,10 @@
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' Gini_index.list > 1
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ vim 1 
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' info_gain.list > 2
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' Max_minority.list > 3
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' Sum_minority.list > 4
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' Sum_of_variances.list > 5
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' svm.list > 6
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' t_statistic.list > 7
+qinghan@qinghan-Lenovo:~/workspace/rankgene-1.1/data/100_feature$ awk -F" " '{print $2}' twoing_rule.list > 8
+

@@ -1,0 +1,57 @@
+Welcome to Rankgene ver 1.0!
+
+Rankgene is a program for analyzing gene expression data, feature
+selection and ranking genes based on the predictive
+power of each gene to classify samples into functional or disease categories.
+
+One useful feature of this program is that the user can select
+eight different ranking criteria. RankGene uses the six measures of predictability adopted from the
+popular OC1 decision tree software developed at Johns Hopkins university. In addition we provide the 
+traditional t-test and a novel efficient implementation of one-dimensional support vector machine(SVM) 
+as two new options.
+
+To install, after downloading,uncompressing and unarchiving the package,run the following
+commands:
+    $ make rankgene
+
+The rankgene program can accept two types of file format:
+1). The first type is the same as the OC1 format, each line contains all the values
+and the class label of one sample:
+<value1>,<value2>,<value3>.......<class_label>
+All the expression values are of float type and label of integer type.
+2). The second type actually uses two files as input: one expression file and one class file. The first row
+of the expression lists all the sample names and each of the following rows contain all the expression of
+a particular gene over all the samples:
+<gene accession number>\t<gene description>\t<value1>\t<value2>.....
+And each row of the class file contains:
+<sample name>\t<class name>
+In the data subdirectory you can find the sample data file of the second input format: all-aml.txt(expression file) and all-aml-class.txt(class file).
+ 
+The output of rankgene is a list of the best k genes with their corresponding information measrue 
+values(in increasing order),where k is an input parameter specified by the option n.
+Each row contains the gene number(corresponds to the row number in input data file, the first row
+starts with number 1) and its
+information measure value. For t test, the output only contains the t value; for 1d SVM, the output also
+contains the two SVs. 
+
+
+Usage options:
+===============
+  -m: specify information measures. 1-6 oc1 mearsures,7 t test,8 1D algorithm, default is set 
+to 1;
+  -w: weight parameter for SVM, can be any positive number, default is 1; (so c is for 1D-SVM 
+only)
+  -n: number of genes that will be listed in the output file, default is 100;
+  -c: class filename;
+  -i: input data filename;
+  -o: output filename;
+  -R: use this flag when input file is of oc1 format.
+For example, to list top 500 genes using 1d svm algorithm, set w to 10:
+  ./rankgene -m8 -w10 -n500 -ogene.list -iall-aml.txt -call-aml-class.txt
+             to list top 10 genes using twoing rule:
+  ./rankgene -m2 -n100 -ogene.list -iall-aml.txt -call-aml-class.txt
+Note that: 1. for t test option, the program will return the t value
+              (while the impurity measure is the reciprocal of the absolute 
+               value of t value);
+           2. for 1D svm option, the program will also return the two SVs 
+              and their corresponding classes.
