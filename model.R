@@ -4,6 +4,7 @@ library(randomForest)
 load("~/workspace/GSE22255/GSE_DATA.RData")
 
 #get features from file
+
 info.gain.index <- read.table("~/workspace/GSE22255/rankgene-1.1/data/feature_selection/Information_Gain.list", sep = "\t", header = F)
 info.gain.index <- info.gain.index$V1
 
@@ -28,25 +29,37 @@ twoing.rule.index <- twoing.rule.index$V1
 svm.index <- read.table("~/workspace/GSE22255/rankgene-1.1/data/feature_selection/svm.list", sep = "\t", header = F)
 svm.index <- svm.index$V1
 
+convert.to.numeric <-function(f){
+  return(as.numeric(as.character(f)))
+}
 
-cv <- function(data,feature){
-  #feature <- feature[1:8]
+cv <- function(data,feature,m.name){
   error.sum <- 0
-  for (i in seq(from = 1, to = 20, by = 2)){
-    test <- c(i:(i + 1), (i+20):(i+21))
+  sets <- split(1:40,1:10)
+  for (test in sets){
+    
     training <- setdiff(1:nrow(data), test)
-    #model <- naiveBayes(data[training, feature], data$class[training])
-    model <- svm(data[training, feature], data$class[training] )
+    model <- NULL
+    if(m.name == "naiveBayes"){
+      model <- naiveBayes(data[training, feature], data$class[training])
+    }
     
-    #model <- glm(class ~ ., family = binomial(), data = data[training, c(feature,54676)])
+    if(m.name == "svm"){
+      model <- svm(data[training, feature], data$class[training] )
+    }
     
-    #model <- randomForest(data[training, feature], data$class[training],ntree = 5000)
+    if(m.name == "logistic"){
+      model <- glm(class ~ ., family = binomial(), data = data[training, c(feature,54676)])
+    }
+    
+    if(m.name == "randomForest"){
+      model <- randomForest(data[training, feature], data$class[training],ntree = 5000)
+    }
+    
     pr <- predict(model, data[test,feature])
-    
     #pr[pr > 0] <- 1
     #pr[pr < 0] <- 2
-    
-    cat("test set", test, "true valeu:", data$class[test],"predicted value:",pr, "\n")
+    cat("test set:", test, "true value:", convert.to.numeric(data$class[test]),"predicted value:" ,convert.to.numeric(pr), "\n")
     error.sum <- error.sum + length(which(!(pr == data$class[test]))) / 4
   }
   print(error.sum/10)
@@ -61,7 +74,6 @@ feature_sets <- list(info.gain.index = info.gain.index,gini.index = gini.index,m
 
 
 normalize.data <- function(data){
-  
   data.normal <- lapply(data[,-ncol(data)], function(e) (e-mean(e) /sd(e)))
   data.normal$class <- data$class
   return(data.normal)
@@ -69,16 +81,19 @@ normalize.data <- function(data){
 
 #data.normal <- as.data.frame(normalize.data(data))
 
-#all.gene.features <- list(gene.1, gene.2, gene.3, gene.4, gene.5, gene.6, gene.7, gene.8)
-#for (i in 1:(length(all.gene.features)-1)){
-#  for(j in (i+1):(length(all.gene.features))){
-#sub.features <- c(all.gene.features[[i]], all.gene.features[[j]])
-#    cv(data, sub.features)
-#}
-#}
+all.gene.features <- list(gene.1, gene.2, gene.3, gene.4, gene.5, gene.6, gene.7, gene.8)
+
+combine.gene <- function(){
+  for (i in 1:(length(all.gene.features)-1)){
+    for(j in (i+1):(length(all.gene.features))){
+      sub.features <- c(all.gene.features[[i]], all.gene.features[[j]])
+     cv(data, sub.features)
+    }
+  }
+}
 
 for( feature in feature_sets){
-cv(data,feature)
+  cv(data,feature,"svm")
 }
 
 #feature selection: t_statistics
@@ -86,8 +101,6 @@ cv(data,feature)
 #algorithm:naivebayes(GDA)
 #select 100 features from each kind of ranking method, then intersect them and get following result
 #[1]  8481  8489 30692  7515 26598 52341 22220 30636
-
-#
 
 
 

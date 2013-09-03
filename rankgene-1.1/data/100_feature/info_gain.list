@@ -1,3 +1,8 @@
+Gene expression data: data/GSE22255_MASS
+Gene ranking measures: 1-information gain; 2-twoing rule; 3-summinority; 4-maxminority; 5-gini index; 6-sum of variances; 7-t_test; 8-1D support vector machine.
+Using gene ranking measure: 1
+Data has 54675 genes with 2 classes.
+Rank	Index	Gene Id	Gene Name	Measure value
 1	30692	30692	230824_at	0.493423	8.084579	8.115094
 2	40441	40441	240578_at	0.479546	34.725121	34.929100
 3	8481	8481	208924_at	0.458778	5679.500977	5723.465820

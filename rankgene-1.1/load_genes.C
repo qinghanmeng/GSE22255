@@ -328,6 +328,7 @@ void load_genes(char *gene_data,// int *classes,
               // check that sample_name has an associated class.
               if (!get_class_name(sample_name, classes))
                 {
+		  cout << "sample_name" << sample_name << endl;
                   cerr << "Sample \"" << sample_name << "\" has no associated class." << endl;
                   error("All samples do not have class labels. Please remove samples without class labels from the input file or provide class labels for them in the class file.");
                 }
