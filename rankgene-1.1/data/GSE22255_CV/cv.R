@@ -26,6 +26,7 @@ cv <- function(data,feature.sets,m.name){
     
     feature <- as.integer(feature.sets[,i])
   
+  
     model <- NULL
     if(m.name == "naiveBayes"){
       model <- naiveBayes(data[training, feature], data$class[training])

@@ -48,15 +48,16 @@ cv <- function(data,feature,m.name){
       model <- svm(data[training, feature], data$class[training] )
     }
     
-    if(m.name == "logistic"){
-      model <- glm(class ~ ., family = binomial(), data = data[training, c(feature,54676)])
-    }
-    
     if(m.name == "randomForest"){
       model <- randomForest(data[training, feature], data$class[training],ntree = 5000)
     }
     
     pr <- predict(model, data[test,feature])
+    
+    
+    if(m.name == "logistic"){
+      model <- glm(class ~ ., family = binomial(), data = data[training, c(feature,54676)])
+    }
     #pr[pr > 0] <- 1
     #pr[pr < 0] <- 2
     cat("test set:", test, "true value:", convert.to.numeric(data$class[test]),"predicted value:" ,convert.to.numeric(pr), "\n")
@@ -81,7 +82,7 @@ normalize.data <- function(data){
 
 #data.normal <- as.data.frame(normalize.data(data))
 
-all.gene.features <- list(gene.1, gene.2, gene.3, gene.4, gene.5, gene.6, gene.7, gene.8)
+#all.gene.features <- list(gene.1, gene.2, gene.3, gene.4, gene.5, gene.6, gene.7, gene.8)
 
 combine.gene <- function(){
   for (i in 1:(length(all.gene.features)-1)){
@@ -93,7 +94,7 @@ combine.gene <- function(){
 }
 
 for( feature in feature_sets){
-  cv(data,feature,"svm")
+  cv(data,feature[1:10],"svm")
 }
 
 #feature selection: t_statistics
